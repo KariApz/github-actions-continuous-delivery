@@ -29,13 +29,9 @@ jobs:
         with:
           name: webpack artifacts
           path: public/
-  success-notification:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - run: exit 0
+
       - name: Slack notification
-        if: ${{ job.build.status  == 'success'}}
+        if: always()
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_USERNAME: GithubActions # Optional. (defaults to webhook app)
@@ -45,14 +41,8 @@ jobs:
         uses: Ilshidur/action-slack@master
         with:
           args: 'suceess.' # Optional
-
-  failure-notification:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - run: exit 1
       - name: Slack Failure
-        if: ${{ job.build.status  == 'failure'}}
+        if: always()
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_USERNAME: GithubActions # Optional. (defaults to webhook app)
