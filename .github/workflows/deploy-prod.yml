@@ -31,7 +31,7 @@ jobs:
           path: public/
 
       - name: Slack notification
-        if: ${{ always && job.status  == 'failure'}}
+        if: ${{ always() && job.status  == 'failure'}}
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_USERNAME: GithubActions # Optional. (defaults to webhook app)
