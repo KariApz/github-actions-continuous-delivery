@@ -53,7 +53,7 @@ jobs:
           SLACK_CHANNEL: deployments # Optional. (defaults to webhook)
           SLACK_AVATAR: repository # Optional. can be (repository, sender, an URL) (defaults to webhook app avatar)
           env:
-        SLACK_CUSTOM_PAYLOAD: '{"text":"Custom payload from {{ GITHUB_REPOSITORY }} \\n *with* `new` _line_ escaped","username": "{{ GITHUB_ACTOR }}"}'
+          SLACK_CUSTOM_PAYLOAD: '{"text":"Custom payload from {{ GITHUB_REPOSITORY }} \\n *with* `new` _line_ escaped","username": "{{ GITHUB_ACTOR }}"}'
         uses: Ilshidur/action-slack@master
         with:
           args: 'A new commit has been pushed.' # Optional
