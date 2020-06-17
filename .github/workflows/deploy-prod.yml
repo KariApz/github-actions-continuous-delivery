@@ -6,22 +6,20 @@ on:
       - master
 
 jobs:
-
-  build:
+  started-notification:
     runs-on: ubuntu-latest
-
     steps:
       - name: Slack notification
-        if: ${{ job.status  == 'starting' }}
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_USERNAME: GithubActions # Optional. (defaults to webhook app)
           SLACK_CHANNEL: deployments # Optional. (defaults to webhook)
           SLACK_AVATAR: repository # Optional. can be (repository, sender, an URL) (defaults to webhook app avatar)
-          SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": "And here’s an attachment!  \n s","color": "#7CD197"}]}'
+          SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": "Started And here’s an attachment!  \n s","color": "#7CD197"}]}'
         uses: Ilshidur/action-slack@master
-        with:
-          args: 'A new commit has been pushed.' # Optional
+  build:
+    runs-on: ubuntu-latest
+    steps:
       - uses: actions/checkout@v1
       - name: npm install and build webpack
         run: |
@@ -31,8 +29,13 @@ jobs:
         with:
           name: webpack artifacts
           path: public/
+  success-notification:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: exit 0
       - name: Slack notification
-        if: ${{ job.status == 'success' }} 
+        if: always()
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_USERNAME: GithubActions # Optional. (defaults to webhook app)
@@ -42,8 +45,14 @@ jobs:
         uses: Ilshidur/action-slack@master
         with:
           args: 'suceess.' # Optional
-      - name: Slack notification
-        if: ${{ job.status == 'failure' }} 
+
+  failure-notification:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: exit 1
+      - name: Slack Failure
+        if: always()
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_USERNAME: GithubActions # Optional. (defaults to webhook app)
@@ -51,9 +60,7 @@ jobs:
           SLACK_AVATAR: repository # Optional. can be (repository, sender, an URL) (defaults to webhook app avatar)
           SLACK_CUSTOM_PAYLOAD: '{"text":"fail from {{ GITHUB_REPOSITORY }} ${{ job.status }} \n  *with* `new` _line_ escaped","username": "{{ GITHUB_ACTOR }}"}'
         uses: Ilshidur/action-slack@master
-        with:
-          args: 'suceess.' # Optional
-     
+
 
   # deploy:
   #   name: Deploy Node.js app to AWS
