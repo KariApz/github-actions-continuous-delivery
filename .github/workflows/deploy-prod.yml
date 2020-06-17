@@ -14,7 +14,7 @@ jobs:
       - name: Slack notification
         env:
           SLACK_WEBHOOK: https://hooks.slack.com/services/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
-          SLACK_USERNAME: kari # Optional. (defaults to webhook app)
+          SLACK_USERNAME: GithubActions # Optional. (defaults to webhook app)
           SLACK_CHANNEL: deployments # Optional. (defaults to webhook)
           SLACK_AVATAR: repository # Optional. can be (repository, sender, an URL) (defaults to webhook app avatar)
         uses: Ilshidur/action-slack@master
