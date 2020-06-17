@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - master
+  colors: [
+    { "starting": "#FFFF00"},
+    { "failure": "#7CD197"},
+    { "success": "#ffffff" }
+  ]
 
 jobs:
   started-notification:
@@ -15,7 +20,8 @@ jobs:
           SLACK_USERNAME: GithubActions # Optional. (defaults to webhook app)
           SLACK_CHANNEL: deployments # Optional. (defaults to webhook)
           SLACK_AVATAR: repository # Optional. can be (repository, sender, an URL) (defaults to webhook app avatar)
-          SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": "Started And here’s an attachment!  \n s","color": "#7CD197"}]}'
+          SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": "STARTED : GITHUB_REPOSITORY   \n GITHUB_REF ","color": "#FFFF00"}]}'
+          # SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": "Started And here’s an attachment!  \n s","color": "#7CD197"}]}'
         uses: Ilshidur/action-slack@master
   build:
     runs-on: ubuntu-latest
@@ -31,13 +37,13 @@ jobs:
           path: public/
 
       - name: Slack notification
-        if: ${{ always() && job.status  == 'failure'}}
+        if: always()
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_USERNAME: GithubActions # Optional. (defaults to webhook app)
-          SLACK_CHANNEL: deployments # Optional. (defaults to webhook)
-          SLACK_AVATAR: repository # Optional. can be (repository, sender, an URL) (defaults to webhook app avatar)
-          SLACK_CUSTOM_PAYLOAD: '{"text":"${{ job.status }} from {{ GITHUB_REPOSITORY }} ${{ job.status }} \n  *with* `new` _line_ escaped","username": "{{ GITHUB_ACTOR }}"}'
+          SLACK_USERNAME: GithubActions 
+          SLACK_CHANNEL: deployments 
+          SLACK_AVATAR: repository 
+          SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": "STARTED : GITHUB_REPOSITORY   \n GITHUB_REF ","color": "${{ job.status}}"}]}'
         uses: Ilshidur/action-slack@master
 
 
