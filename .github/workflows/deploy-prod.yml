@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Slack notification
-        if: ${{ job.status }} === "starting"
+        if: ${{ job.status  == 'starting' }}
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_USERNAME: GithubActions # Optional. (defaults to webhook app)
@@ -32,13 +32,24 @@ jobs:
           name: webpack artifacts
           path: public/
       - name: Slack notification
-        if: ${{ job.status }} === "success"
+        if: ${{ job.status == 'success' }} 
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_USERNAME: GithubActions # Optional. (defaults to webhook app)
           SLACK_CHANNEL: deployments # Optional. (defaults to webhook)
           SLACK_AVATAR: repository # Optional. can be (repository, sender, an URL) (defaults to webhook app avatar)
           SLACK_CUSTOM_PAYLOAD: '{"text":"success from {{ GITHUB_REPOSITORY }} ${{ job.status }} \n  *with* `new` _line_ escaped","username": "{{ GITHUB_ACTOR }}"}'
+        uses: Ilshidur/action-slack@master
+        with:
+          args: 'suceess.' # Optional
+      - name: Slack notification
+        if: ${{ job.status == 'failure' }} 
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_USERNAME: GithubActions # Optional. (defaults to webhook app)
+          SLACK_CHANNEL: deployments # Optional. (defaults to webhook)
+          SLACK_AVATAR: repository # Optional. can be (repository, sender, an URL) (defaults to webhook app avatar)
+          SLACK_CUSTOM_PAYLOAD: '{"text":"fail from {{ GITHUB_REPOSITORY }} ${{ job.status }} \n  *with* `new` _line_ escaped","username": "{{ GITHUB_ACTOR }}"}'
         uses: Ilshidur/action-slack@master
         with:
           args: 'suceess.' # Optional
