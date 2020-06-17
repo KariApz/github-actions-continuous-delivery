@@ -43,7 +43,7 @@ jobs:
           SLACK_USERNAME: GithubActions 
           SLACK_CHANNEL: deployments 
           SLACK_AVATAR: repository 
-          SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": "STARTED : GITHUB_REPOSITORY   \n GITHUB_REF ","color": "${{ job.status}}"}]}'
+          SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": "STARTED : GITHUB_REPOSITORY   \n GITHUB_REF ","color": "colors.${{ job.status}}"}]}'
         uses: Ilshidur/action-slack@master
 
 
