@@ -40,7 +40,7 @@ jobs:
           SLACK_AVATAR: repository 
           failure: "#7CD197"
           success: "#ffffff"
-          SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": "STARTED : GITHUB_REPOSITORY   \n GITHUB_REF ","color": ${{ job.status }} }]}'
+          SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": "STARTED : GITHUB_REPOSITORY ${{ env.failure }} ${{ failure }} ${{ job.status }} \n GITHUB_REF ","color": ${{ ${{ job.status }} }} }]}'
         uses: Ilshidur/action-slack@master
 
 
