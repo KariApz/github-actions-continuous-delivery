@@ -15,7 +15,7 @@ jobs:
           SLACK_USERNAME: GithubActions # Optional. (defaults to webhook app)
           SLACK_CHANNEL: deployments # Optional. (defaults to webhook)
           SLACK_AVATAR: repository # Optional. can be (repository, sender, an URL) (defaults to webhook app avatar)
-          SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": "STARTED : ${{GITHUB_REPOSITORY }}  \n GITHUB_REF ","color": "#FFFF00"}]}'
+          SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": "STARTED : ${{ GITHUB_REPOSITORY }}  \n GITHUB_REF ","color": "#FFFF00"}]}'
           # SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": "Started And here’s an attachment!  \n s","color": "#7CD197"}]}'
         uses: Ilshidur/action-slack@master
   build:
