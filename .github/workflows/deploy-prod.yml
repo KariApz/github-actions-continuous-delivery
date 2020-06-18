@@ -38,12 +38,10 @@ jobs:
           SLACK_USERNAME: GithubActions 
           SLACK_CHANNEL: deployments 
           SLACK_AVATAR: repository 
-          COLORS: [
-          { "starting": "#FFFF00"},
-          { "failure": "#7CD197"},
-          { "success": "#ffffff" }
+          failure: "#7CD197"
+          success: "#ffffff"
         ]
-          SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": "STARTED : GITHUB_REPOSITORY   \n GITHUB_REF ","color": "${{COLORS.job.status}}"}]}'
+          SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": "STARTED : GITHUB_REPOSITORY   \n GITHUB_REF ","color": ${{ job.status }} }]}'
         uses: Ilshidur/action-slack@master
 
 
