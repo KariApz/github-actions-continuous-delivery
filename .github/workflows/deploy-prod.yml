@@ -23,12 +23,17 @@ jobs:
       - name: npm install and build webpack
         run: |
           npm install
-          npm run buildt
+          npm run build
       - uses: actions/upload-artifact@master
         with:
           name: webpack artifacts
           path: public/
-
+      - name: Color Failure - Slack
+        if: failure()
+        run: echo "::set-env name=COLOR::#7CD197"
+      - name: Color Success - Slack
+        if: success()
+      - run: echo "::set-env name=COLOR::#ffffff"
       - name: Slack notification
         if: always()
         env:
@@ -36,10 +41,9 @@ jobs:
           SLACK_USERNAME: GithubActions 
           SLACK_CHANNEL: deployments 
           SLACK_AVATAR: repository 
-          failure: "#7CD197"
-          success: "#ffffff"
-          SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": "STARTED : GITHUB_REPOSITORY ${{ env.failure }} ${{ job.status }} \n GITHUB_REF ","color": "${{ env.failure }}" }]}'
+          SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": "STARTED : GITHUB_REPOSITORY ${{ job.status }} \n GITHUB_REF ","color": "${{ env.COLOR }}" }]}'
         uses: Ilshidur/action-slack@master
+
 
 
   # deploy:
