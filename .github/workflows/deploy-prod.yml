@@ -10,13 +10,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Slack notification
+      - name: Slack notification - Start
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_USERNAME: GithubActions # Optional. (defaults to webhook app)
           SLACK_CHANNEL: deployments # Optional. (defaults to webhook)
           SLACK_AVATAR: repository # Optional. can be (repository, sender, an URL) (defaults to webhook app avatar)
-          SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": "STARTED : GITHUB_REPOSITORY  \n GITHUB_REF ","color": "#FFFF00"}]}'
+          SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": " *STARTED* : \n REPO ${{ github.repository }} \n  BRANCH ${{ github.ref }} \n COMMIT MESSAGE ${{ github.event.head_commit.message }}","color": "#FFFF00"}]}'
           # SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": "Started And here’s an attachment!  \n s","color": "#7CD197"}]}'
         uses: Ilshidur/action-slack@master
       - uses: actions/checkout@v1
@@ -28,20 +28,23 @@ jobs:
         with:
           name: webpack artifacts
           path: public/
-      - name: Color Failure - Slack
+      - name: Set Color Failure - Slack
         if: failure()
-        run: echo "::set-env name=COLOR::#7CD197"
-      - name: Color Success - Slack
+        run: |
+          echo "::set-env name=JOB_STATUS::FAILURE"
+          echo "::set-env name=COLOR::#FF0000"
+      - name: Set Color Success - Slack
         if: success()
-        run: echo "::set-env name=COLOR::#ffffff"
-      - name: Slack notification
+        run: |
+          echo "::set-env name=JOB_STATUS::SUCCESSFUL"
+      - name: Slack notification - Status
         if: always()
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_USERNAME: GithubActions 
           SLACK_CHANNEL: deployments 
           SLACK_AVATAR: repository 
-          SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": "STARTED : GITHUB_REPOSITORY ${{ job.status }} \n GITHUB_REF ","color": "${{ env.COLOR }}" }]}'
+          SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": " *${{ job.status }}* : \n ENDPOINT https://www.google.com \n REPO ${{ github.repository }} \n  BRANCH ${{ github.ref }} \n COMMIT MESSAGE ${{ github.event.head_commit.message }}","color": "${{ env.COLOR }}" }]}'
         uses: Ilshidur/action-slack@master
 
 
