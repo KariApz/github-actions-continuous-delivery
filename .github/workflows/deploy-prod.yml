@@ -6,7 +6,8 @@ on:
       - master
 
 jobs:
-  started-notification:
+
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Slack notification
@@ -18,9 +19,6 @@ jobs:
           SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": "STARTED : GITHUB_REPOSITORY  \n GITHUB_REF ","color": "#FFFF00"}]}'
           # SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": "Started And here’s an attachment!  \n s","color": "#7CD197"}]}'
         uses: Ilshidur/action-slack@master
-  build:
-    runs-on: ubuntu-latest
-    steps:
       - uses: actions/checkout@v1
       - name: npm install and build webpack
         run: |
@@ -40,7 +38,7 @@ jobs:
           SLACK_AVATAR: repository 
           failure: "#7CD197"
           success: "#ffffff"
-          SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": "STARTED : GITHUB_REPOSITORY ${{ env.failure }} ${{ failure }} ${{ job.status }} \n GITHUB_REF ","color": ${{ ${{ job.status }} }} }]}'
+          SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": "STARTED : GITHUB_REPOSITORY ${{ env.failure }} ${{ job.status }} \n GITHUB_REF ","color": ${{ env.${{ job.status }} }} }]}'
         uses: Ilshidur/action-slack@master
 
 
