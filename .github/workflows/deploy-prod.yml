@@ -45,7 +45,7 @@ jobs:
           SLACK_USERNAME: GithubActions 
           SLACK_CHANNEL: deployments 
           SLACK_AVATAR: repository 
-          SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": " *${{ job.status }}* : \n ENDPOINT https://www.google.com \n REPO ${{ github.repository }} \n  BRANCH ${{ github.ref }} \n COMMIT MESSAGE ${{ github.event.head_commit.message }}","color": "${{ env.COLOR }}" }]}'
+          SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": " *${{ env.JOB_STATUS }}* : \n ENDPOINT https://www.google.com \n REPO ${{ github.repository }} \n  BRANCH ${{ github.ref }} \n COMMIT MESSAGE ${{ github.event.head_commit.message }}","color": "${{ env.COLOR }}" }]}'
         uses: Ilshidur/action-slack@master
 
 
