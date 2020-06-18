@@ -33,7 +33,7 @@ jobs:
         run: echo "::set-env name=COLOR::#7CD197"
       - name: Color Success - Slack
         if: success()
-      - run: echo "::set-env name=COLOR::#ffffff"
+        run: echo "::set-env name=COLOR::#ffffff"
       - name: Slack notification
         if: always()
         env:
