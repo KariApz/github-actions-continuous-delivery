@@ -4,11 +4,6 @@ on:
   push:
     branches:
       - master
-  colors: [
-    { "starting": "#FFFF00"},
-    { "failure": "#7CD197"},
-    { "success": "#ffffff" }
-  ]
 
 jobs:
   started-notification:
@@ -24,6 +19,11 @@ jobs:
           # SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": "Started And here’s an attachment!  \n s","color": "#7CD197"}]}'
         uses: Ilshidur/action-slack@master
   build:
+    colors: [
+      { "starting": "#FFFF00"},
+      { "failure": "#7CD197"},
+      { "success": "#ffffff" }
+    ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
