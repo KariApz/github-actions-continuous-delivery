@@ -13,8 +13,8 @@ jobs:
       - name: Set variable - Slack notification
         run: |
           msg="${{ github.event.head_commit.message }}"
-          result=$(echo $res | sed -e 's/\\n\\n/ /g')
-          echo "$result"
+          result=$(echo $msg | sed -e 's/\\n\\n/ /g')
+          echo $result
           echo "::set-env name=MSG::$result"
       - name: Slack notification - Start
         env:
