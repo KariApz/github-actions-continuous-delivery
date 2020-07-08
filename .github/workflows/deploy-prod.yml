@@ -10,13 +10,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Set variable - Slack notification
+        run: |
+          msg="${{ github.event.head_commit.message }}"
+          result=$(echo $res | sed -e 's/\\n\\n/ /g')
+          echo "$result"
+          echo "::set-env name=MSG::$result"
       - name: Slack notification - Start
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_USERNAME: GithubActions # Optional. (defaults to webhook app)
           SLACK_CHANNEL: deployments # Optional. (defaults to webhook)
           SLACK_AVATAR: repository # Optional. can be (repository, sender, an URL) (defaults to webhook app avatar)
-          SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": " *STARTED : * \n Repo : https://github.com/${{ github.repository }} \n Branch : ${{ github.ref }} \n Commit message : ${{ github.event.head_commit.message }}","color": "#FFFF00"}]}'
+          SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": " *STARTED : * \n Repo : https://github.com/${{ github.repository }} \n Branch : ${{ github.ref }} \n Commit message : ${{ env.MSG }}","color": "#FFFF00"}]}'
           # SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": "Started And here’s an attachment!  \n s","color": "#7CD197"}]}'
         uses: Ilshidur/action-slack@master
       - uses: actions/checkout@v1
@@ -45,7 +51,7 @@ jobs:
           SLACK_USERNAME: GithubActions 
           SLACK_CHANNEL: deployments 
           SLACK_AVATAR: repository 
-          SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": " *${{ env.JOB_STATUS }} : * \n Endpoint : https://www.google.com \n Repo : https://github.com/${{ github.repository }} \n Branch : ${{ github.ref }} \n Commit message : ${{ github.event.head_commit.message }}","color": "${{ env.COLOR }}" }]}'
+          SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": " *${{ env.JOB_STATUS }} : * \n Endpoint : https://www.google.com \n Repo : https://github.com/${{ github.repository }} \n Branch : ${{ github.ref }} \n Commit message : ${{ env.MSG }}","color": "${{ env.COLOR }}" }]}'
         uses: Ilshidur/action-slack@master
 
 
