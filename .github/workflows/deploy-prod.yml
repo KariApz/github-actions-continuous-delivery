@@ -28,17 +28,7 @@ jobs:
       - uses: actions/upload-artifact@master
         with:
           name: webpack artifacts
-          path: public/
-      - name: Set Color Failure - Slack
-        if: failure()
-        run: |
-          echo "::set-env name=JOB_STATUS::FAILURE"
-          echo "::set-env name=COLOR::#FF0000"
-      - name: Set Color Success - Slack
-        if: success()
-        run: |
-          echo "::set-env name=COLOR::#7CD197"
-          echo "::set-env name=JOB_STATUS::SUCCESSFUL"  
+          path: public/ 
   deploy:
     name: Deploy Node.js app to AWS
     needs: build
@@ -48,6 +38,16 @@ jobs:
       - name: npm install and build webpack
         run: |
           ls
+      - name: Set Color Failure - Slack
+        if: failure()
+        run: |
+          echo "::set-env name=JOB_STATUS::FAILURE"
+          echo "::set-env name=COLOR::#FF0000"
+      - name: Set Color Success - Slack
+        if: success()
+        run: |
+          echo "::set-env name=COLOR::#7CD197"
+          echo "::set-env name=JOB_STATUS::SUCCESSFUL" 
       - name: Slack notification - Status
         if: always()
         env:
