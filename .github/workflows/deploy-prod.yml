@@ -5,9 +5,7 @@ on:
     branches:
       - master
       - feature/slack
-
 jobs:
-
   build:
     runs-on: ubuntu-latest
     env:
@@ -46,35 +44,7 @@ jobs:
           SLACK_AVATAR: repository 
           SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": " *${{ env.JOB_STATUS }} : * \n Endpoint : https://www.google.com \n Repo : https://github.com/${{ github.repository }} \n Branch : ${{ github.ref }} \n Commit message : ${{ github.event.head_commit.message }}","color": "${{ env.COLOR }}" }]}'
         uses: Ilshidur/action-slack@master
-  deploy:
-    name: Deploy Node.js app to AWS
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: npm install and build webpack
-        run: |
-          ls
-          sh .github/workflows/status.sh
-      - name: Set Color Failure - Slack
-        if: failure()
-        run: |
-          echo "::set-env name=JOB_STATUS::FAILURE"
-          echo "::set-env name=COLOR::#FF0000"
-      - name: Set Color Success - Slack
-        if: success()
-        run: |
-          echo "::set-env name=COLOR::#7CD197"
-          echo "::set-env name=JOB_STATUS::SUCCESSFUL" 
-      - name: Slack notification - Status
-        if: always()
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_USERNAME: GithubActions 
-          SLACK_CHANNEL: deployments 
-          SLACK_AVATAR: repository 
-          SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": " *${{ env.JOB_STATUS }} : * \n Endpoint : https://www.google.com \n Repo : https://github.com/${{ github.repository }} \n Branch : ${{ github.ref }} \n Commit message : ${{ github.event.head_commit.message }}","color": "${{ env.COLOR }}" }]}'
-        uses: Ilshidur/action-slack@master
+  
 
 
 
