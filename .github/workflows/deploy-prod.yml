@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - feature/slack
 
 jobs:
 
@@ -37,7 +38,16 @@ jobs:
         if: success()
         run: |
           echo "::set-env name=COLOR::#7CD197"
-          echo "::set-env name=JOB_STATUS::SUCCESSFUL"
+          echo "::set-env name=JOB_STATUS::SUCCESSFUL"  
+  deploy:
+    name: Deploy Node.js app to AWS
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: npm install and build webpack
+        run: |
+          ls
       - name: Slack notification - Status
         if: always()
         env:
@@ -47,6 +57,7 @@ jobs:
           SLACK_AVATAR: repository 
           SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": " *${{ env.JOB_STATUS }} : * \n Endpoint : https://www.google.com \n Repo : https://github.com/${{ github.repository }} \n Branch : ${{ github.ref }} \n Commit message : ${{ github.event.head_commit.message }}","color": "${{ env.COLOR }}" }]}'
         uses: Ilshidur/action-slack@master
+
 
 
 
