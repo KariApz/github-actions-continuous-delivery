@@ -54,7 +54,7 @@ jobs:
     steps:
       - name: npm install and build webpack
         run: |
-          sh status.sh
+          sh .github/workflows/status.sh
       - name: Set Color Failure - Slack
         if: failure()
         run: |
