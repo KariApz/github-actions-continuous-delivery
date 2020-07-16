@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - feature/slack
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -36,7 +35,7 @@ jobs:
           echo "::set-env name=JOB_STATUS::FAILURE"
           echo "::set-env name=COLOR::#FF0000"
       - name: Slack notification - Status
-        if: failure()
+        if: always()
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_USERNAME: GithubActions 
