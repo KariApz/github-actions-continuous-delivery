@@ -32,6 +32,8 @@ jobs:
           SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": " *${{ env.JOB_STATUS }} : * \n Repo : https://github.com/${{ github.repository }} \n Branch : ${{ github.ref }} \n Commit message : ${{ github.event.head_commit.message }}","color": "${{ env.COLOR }}"}]}'
           # SLACK_CUSTOM_PAYLOAD: '{"attachments": [{"text": "Started And here’s an attachment!  \n s","color": "#7CD197"}]}'
         uses: Ilshidur/action-slack@master
+      - name: Clone repository
+        uses: actions/checkout@v2
       - name: npm install and build webpack
         run: |
           ls
