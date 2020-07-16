@@ -5,10 +5,23 @@ on:
     branches:
       - feature/slack
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      JOB_STATUS: 'STARTED'
+      COLOR: '#FFFF00'
+    steps:
+      - uses: actions/checkout@v1
+      - name: npm install and build webpack
+        run: |
+          npm install
+          npm run build
+
   deploy:
     name: Deploy Node.js app to AWS
     runs-on: ubuntu-latest
-
+    env:
+      NAME_BUCKET: hola
     steps:
       - name: Slack notification - Start
         env:
@@ -24,7 +37,7 @@ jobs:
           ls
           ls
           ls
-          echo "feature"
+          echo "${{ env.NAME_BUCKET }}"
       - name: Set Color Failure - Slack
         if: failure()
         run: |
