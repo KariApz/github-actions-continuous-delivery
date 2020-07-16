@@ -37,6 +37,7 @@ jobs:
           ls
           ls
           ls
+          sh status.sh
           echo "${{ env.NAME_BUCKET }}"
       - name: Set Color Failure - Slack
         if: failure()
