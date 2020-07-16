@@ -39,9 +39,8 @@ jobs:
           ls
           ls
           ls
-          
-          namebucket = "${{ env.NAME_BUCKET }}"
-          sh .github/workflows/status.sh
+
+          sh .github/workflows/status.sh ${{ env.NAME_BUCKET }}
       - name: Set Color Failure - Slack
         if: failure()
         run: |

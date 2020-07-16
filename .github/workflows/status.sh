@@ -1,4 +1,4 @@
 #!/bin/bash
 ls
 echo "test"
-echo "${namebucket} ffffffffffff"
+echo "$1 ffffffffffff"
