@@ -39,7 +39,7 @@ jobs:
           ls
           ls
           ls
-          sh status.sh
+          sh .github/workflows/status.sh
           echo "${{ env.NAME_BUCKET }}"
       - name: Set Color Failure - Slack
         if: failure()
