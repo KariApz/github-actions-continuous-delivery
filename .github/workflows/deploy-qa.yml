@@ -44,13 +44,13 @@ jobs:
       - name: Set Color Failure - Slack
         if: failure()
         run: |
-          echo "::set-env name=JOB_STATUS::FAILURE"
-          echo "::set-env name=COLOR::#FF0000"
+          echo "JOB_STATUS=FAILURE" >> $GITHUB_ENV
+          echo "COLOR=#FF0000" >> $GITHUB_ENV
       - name: Set Color Success - Slack
         if: success()
         run: |
-          echo "::set-env name=COLOR::#7CD197"
-          echo "::set-env name=JOB_STATUS::SUCCESSFUL" 
+          echo "JOB_STATUS=SUCCESSFUL" >> $GITHUB_ENV
+          echo "COLOR=#7CD197" >> $GITHUB_ENV 
       - name: Slack notification - Status
         if: always()
         env:
